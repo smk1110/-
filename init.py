@@ -1,3 +1,6 @@
+if (__name__ == "__main__"):
+    print("Don't open on the main file.")
+    exit()
 try:
     import pyautogui
     import keyboard
