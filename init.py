@@ -17,7 +17,7 @@ while True:
     if a in ["I", "i"]:
         with open ("data.pickle", 'rb') as p:
             position = pickle.load(p)
-        (Friend, Hide, Delete, Delete_OK, Block, Block_OK)= position
+        (Friend, Hide, Delete, Block)= position
         break
 
     elif a in ["R", "r"]:
@@ -43,34 +43,9 @@ while True:
                 pyautogui.press('backspace')
                 Delete = pyautogui.position()
                 break
-        pyautogui.moveTo(Delete)
-        pyautogui.click(button='left')
-        print("Where is 'Delete / OK'? Press 's' on it.")
-        while True:
-            time_duration = 0.1
-            time.sleep(time_duration)
-            if keyboard.is_pressed('s'):
-                pyautogui.press('backspace')
-                Delete_OK = pyautogui.position()
-                break
-        pyautogui.press('esc')
         Block = (Friend.x+30, Friend.y +230)
 
-        pyautogui.moveTo(Friend) #차단
-        pyautogui.click(button='right')
-        pyautogui.moveTo(Block)
-        pyautogui.click(button='left')
-        print("Where is 'Block / OK'? Press 's' on it.")
-        while True:
-            time_duration = 0.1
-            time.sleep(time_duration)
-            if keyboard.is_pressed('s'):
-                pyautogui.press('backspace')
-                Block_OK = pyautogui.position()
-                break
-        pyautogui.press('esc')
-
-        data = (Friend, Hide, Delete, Delete_OK, Block, Block_OK)
+        data = (Friend, Hide, Delete, Block)
         with open('data.pickle', 'wb') as f:
             pickle.dump(data, f)
         break
@@ -80,9 +55,7 @@ while True:
 print("The top of your friend profiles : ("+str(Friend.x)+",", str(Friend.y)+")")
 print("Hide button : "+str(Hide))
 print("Delete button : ("+str(Delete.x)+",", str(Delete.y)+")")
-print("Delete OK button : ("+str(Delete_OK.x)+",", str(Delete_OK.y)+")")
 print("Block button : "+str(Block))
-print("Block OK button : ("+str(Block_OK.x)+",", str(Block_OK.y)+")")
 
 print("Now all set!")
 
@@ -96,7 +69,7 @@ def delete_friends():
     
     pyautogui.moveTo(Delete)
     pyautogui.click(button='left')
-    pyautogui.moveTo(Delete_OK)
+    pyautogui.press('space')
     pyautogui.click(button='left')
 
 def skip_friends():
@@ -105,5 +78,5 @@ def skip_friends():
     pyautogui.click(button='right')
     pyautogui.moveTo(Block)
     pyautogui.click(button='left')
-    pyautogui.moveTo(Block_OK)
+    pyautogui.press('space')
     pyautogui.click(button='left')
