@@ -10,10 +10,17 @@ except ModuleNotFoundError:
     print("You have not installed some modules.")
     print("Please install pyautogui, keyboard, pickle with pip.")
     exit()
-print("Do you have an data.pickle file saved before?")
+def pause(key):
+    while True:
+        time_duration = 0.1
+        time.sleep(time_duration)
+        if keyboard.is_pressed(key):
+            pyautogui.press('backspace')
+            break
+print("전에 저장해둔 data.pickle 파일이 있나요?")
 while True:
     
-    a = input("[R] I want to reset. / [I] Yes, Import it. : ")
+    a = input("[R] 그냥 재설정할게요. / [I] 네, 불러와주세요. : ")
     if a in ["I", "i"]:
         with open ("data.pickle", 'rb') as p:
             position = pickle.load(p)
@@ -22,27 +29,17 @@ while True:
 
     elif a in ["R", "r"]:
 
-        print("Press 's' on the top of your friend profiles.")
-        while True:
-            time_duration = 0.1
-            time.sleep(time_duration)
-            if keyboard.is_pressed('s'):
-                pyautogui.press('backspace')
-                Friend = pyautogui.position()
-                break
+        print("친구 목록 가장 위에서 's'를 누르세요.")
+        pause('s')
+        Friend = pyautogui.position()
         pyautogui.moveTo(Friend) #카톡 친구 위치로 이동
         pyautogui.click(button='right')
         Hide = (Friend.x+30, Friend.y +200)
         pyautogui.moveTo(Hide)
         pyautogui.click(button='left')
-        print("Press 's' on 'Delete' (Settings/Friends/Hidden Friends)")
-        while True:
-            time_duration = 0.1
-            time.sleep(time_duration)
-            if keyboard.is_pressed('s'):
-                pyautogui.press('backspace')
-                Delete = pyautogui.position()
-                break
+        print("'Delete' (Settings/Friends/Hidden Friends)에서 's'를 누르세요.")
+        pause('s')
+        Delete = pyautogui.position()
         Block = (Friend.x+30, Friend.y +230)
 
         data = (Friend, Hide, Delete, Block)
@@ -50,12 +47,12 @@ while True:
             pickle.dump(data, f)
         break
     else:
-        print("Please enter a valid input.")
+        print("정상적인 값이 아닙니다.")
 
-print("The top of your friend profiles : ("+str(Friend.x)+",", str(Friend.y)+")")
-print("Hide button : "+str(Hide))
-print("Delete button : ("+str(Delete.x)+",", str(Delete.y)+")")
-print("Block button : "+str(Block))
+print("친구 목록 최상단 : ("+str(Friend.x)+",", str(Friend.y)+")")
+print("숨김 버튼 : "+str(Hide))
+print("삭제 버튼 : ("+str(Delete.x)+",", str(Delete.y)+")")
+print("차단 버튼 : "+str(Block))
 
 print("Now all set!")
 
